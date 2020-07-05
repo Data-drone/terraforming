@@ -1,0 +1,28 @@
+---
+- hosts: all
+  become: yes
+
+  tasks:
+  - name: 
+    yum: 
+        update_cache: yes
+ 
+  - name: clean yum
+    shell: yum clean all
+
+  - name: add cldr rpm key
+    rpm_key:
+        state: present
+        key: https://archive.cloudera.com/cm6/6.3.0/redhat7/yum/RPM-GPG-KEY-cloudera
+
+  - name: remove openjdk
+    yum:
+        name: '*openjdk*'
+        state: removed
+
+  - name: install oracle jdk
+    yum:
+        name: oracle-j2sdk1.8
+        state: installed
+        update_cache: yes
+
