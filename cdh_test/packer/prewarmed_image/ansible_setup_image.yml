@@ -53,26 +53,20 @@
     selinux:
       state: disabled
 
-  - name: stop iptables
+  - name: stop cloudera services so that director can do this
     systemd:
-      name: iptables
-      enabled: no
-      state: stopped
-
-  - name: stop firewalld
-    systemd:
-      name: firewalld
+      name: cloudera-manager-agent
       enabled: no
       state: stopped
 
   - name: stop cloudera services so that director can do this
     systemd:
-      name: "{{ packages }}"
+      name: cloudera-manager-server
       enabled: no
       state: stopped
-    vars:
-      packages:
-      - cloudera-manager-agent
-      - cloudera-manager-server
-      - cloudera-manager-server-db-2
-    
+      
+  - name: stop cloudera services so that director can do this
+    systemd:
+      name: cloudera-manager-server-db-2
+      enabled: no
+      state: stopped
