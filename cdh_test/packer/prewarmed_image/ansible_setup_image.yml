@@ -1,0 +1,78 @@
+---
+- hosts: all
+  become: yes
+
+  tasks:
+  - name: get repo
+    get_url:
+      url: https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/cloudera-manager.repo
+      dest: /etc/yum.repos.d/
+
+  - name: add cldr rpm key
+    rpm_key:
+      state: present
+      key: https://archive.cloudera.com/cm5/redhat/7/x86_64/cm/RPM-GPG-KEY-cloudera
+
+  - name: install some deps
+    yum:
+      name: "{{ packages }}" 
+      update_cache: yes
+    vars:
+      packages:
+      - ntp
+      - curl
+      - nscd
+      - python
+      - bc
+      - rng-tools
+
+  - name: install oracle
+    yum:
+      name: oracle-j2sdk1.7
+      state: installed
+      update_cache: yes
+
+  - name: install cldr components
+    yum:
+      name: "{{ packages }}"
+      update_cache: yes
+    vars:
+      packages:
+      - cloudera-manager-agent
+      - cloudera-manager-daemons
+      - cloudera-manager-server
+      - cloudera-manager-server-db-2
+
+  - name: start chronyd
+    systemd:
+      name: chronyd
+      enabled: yes
+      state: started
+
+  - name: turn off selinux
+    selinux:
+      state: disabled
+
+  - name: stop iptables
+    systemd:
+      name: iptables
+      enabled: no
+      state: stopped
+
+  - name: stop firewalld
+    systemd:
+      name: firewalld
+      enabled: no
+      state: stopped
+
+  - name: stop cloudera services so that director can do this
+    systemd:
+      name: "{{ packages }}"
+      enabled: no
+      state: stopped
+    vars:
+      packages:
+      - cloudera-manager-agent
+      - cloudera-manager-server
+      - cloudera-manager-server-db-2
+    

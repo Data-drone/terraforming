@@ -1,0 +1,9 @@
+---
+- hosts: all
+  become: yes
+
+  tasks:
+  - name: test
+    get_url: 
+      url: https://archive.cloudera.com/cdh5/parcels/5.14/CDH-5.14.4-1.cdh5.14.4.p0.3-el7.parcel
+      dest: /opt/CDH-5.14.4-1.cdh5.14.4.p0.3-el7.parcel
