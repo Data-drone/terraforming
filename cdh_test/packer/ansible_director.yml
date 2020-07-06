@@ -37,3 +37,8 @@
       packages:
       - cloudera-director-server
       - cloudera-director-client
+
+  - name: start cloudera director
+    yum:
+      name: cloudera-director-server
+      state: start

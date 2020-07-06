@@ -19,13 +19,13 @@
         },
         "instance_type": "m5.large",
         "ssh_username": "centos",
-        "ami_name": "packer-test {{timestamp}}"
+        "ami_name": "Brian-director {{timestamp}}"
       }
     ],
     "provisioners": [
         {
             "type": "ansible",
-            "playbook_file": "./ansible_base.yml"
+            "playbook_file": "./ansible_director.yml"
         }
     ]
   }
