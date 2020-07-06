@@ -39,6 +39,7 @@
       - cloudera-director-client
 
   - name: start cloudera director
-    yum:
+    systemd:
       name: cloudera-director-server
-      state: start
+      enabled: yes
+      state: started
