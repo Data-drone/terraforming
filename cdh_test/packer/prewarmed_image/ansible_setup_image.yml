@@ -53,20 +53,17 @@
     selinux:
       state: disabled
 
-  - name: stop cloudera services so that director can do this
+  - name: switch off cloudera agent
     systemd:
-      name: cloudera-manager-agent
+      name: cloudera-scm-agent
       enabled: no
-      state: stopped
 
-  - name: stop cloudera services so that director can do this
+  - name: switch off cloudera server
     systemd:
-      name: cloudera-manager-server
+      name: cloudera-scm-server
       enabled: no
-      state: stopped
-      
-  - name: stop cloudera services so that director can do this
+
+  - name: switch off cloudera server db
     systemd:
-      name: cloudera-manager-server-db-2
+      name: cloudera-scm-server-db
       enabled: no
-      state: stopped

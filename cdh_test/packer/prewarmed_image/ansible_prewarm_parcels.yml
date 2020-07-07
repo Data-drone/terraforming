@@ -3,7 +3,45 @@
   become: yes
 
   tasks:
-  - name: test
+  - name: get CDH parcel
     get_url: 
       url: https://archive.cloudera.com/cdh5/parcels/5.14/CDH-5.14.4-1.cdh5.14.4.p0.3-el7.parcel
-      dest: /opt/CDH-5.14.4-1.cdh5.14.4.p0.3-el7.parcel
+      dest: /opt/cloudera/parcel-repo/CDH-5.14.4-1.cdh5.14.4.p0.3-el7.parcel
+
+  - name: get sha key
+    get_url:
+      url: https://archive.cloudera.com/cdh5/parcels/5.14/CDH-5.14.4-1.cdh5.14.4.p0.3-el7.parcel.sha1
+      dest: /opt/cloudera/parcel-repo/CDH-5.14.4-1.cdh5.14.4.p0.3-el7.parcel.sha1
+
+  - name: check sha1
+    stat:
+      path: /opt/cloudera/parcel-repo/CDH-5.14.4-1.cdh5.14.4.p0.3-el7.parcel
+      checksum_algorithm: sha1
+    register: sha_result
+
+  - name: create parcels folder
+    file:
+      path: /opt/cloudera/parcels
+      state: directory
+
+  - name: untar the cdh parcel
+    unarchive:
+      src: /opt/cloudera/parcel-repo/CDH-5.14.4-1.cdh5.14.4.p0.3-el7.parcel
+      dest: /opt/cloudera/parcels/
+      remote_src: yes
+
+  - name: add the don't delete
+    file:
+      path: /opt/cloudera/parcels/CDH-5.14.4-1.cdh5.14.4.p0.3/.dont_delete
+      state: touch  
+
+  - name: recursive change the ownership of dir
+    file:
+      path: /opt/cloudera
+      state: directory
+      recurse: yes
+      owner: cloudera-scm
+      group: cloudera-scm
+
+  - name: run sync
+    shell: sudo sync
