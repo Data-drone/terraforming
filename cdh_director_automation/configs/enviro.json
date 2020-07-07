@@ -1,0 +1,17 @@
+{
+    "name": "dev-env",
+    "provider": {
+        "type": "aws",
+        "config": {
+            "accessKeyId": "***AWS_ACCESS_KEY_ID***",
+            "secretAccessKey": "***AWS_SECRET_ACCESS_KEY***",
+            "keyNamePrefix": "CLOUDERA-",
+            "region": "ap-southeast-2"
+        }
+    },
+    "credentials": {
+        "username": "centos",
+        "port": 22,
+        "privateKey": "***RSA_PRIVATE_KEY***"
+    }
+}
