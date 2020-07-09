@@ -1,0 +1,103 @@
+{
+    "name": "first-cluster",
+    "productVersions": {
+        "CDH": "5.14.4"
+    },
+    "services": [
+        "HDFS",
+        "HIVE",
+        "HUE",
+        "IMPALA",
+        "OOZIE",
+        "YARN",
+        "ZOOKEEPER"
+    ],
+    "virtualInstanceGroups": {
+        "edge": {
+            "name": "edge",
+            "virtualInstances": "***EDGE-INSTANCES***",
+            "minCount": 0,
+            "serviceTypeToRoleTypes": {
+                "HIVE": [
+                    "GATEWAY"
+                ],
+                "HDFS": [
+                  "GATEWAY"
+                ],
+                "YARN": [
+                  "GATEWAY"
+                ]
+            },
+            "roleTypesConfigs": {}
+        },
+        "data": {
+            "name": "data",
+            "virtualInstances": "***DATA-INSTANCES***",
+            "minCount": 3,
+            "serviceTypeToRoleTypes": {
+                "HDFS": [
+                    "DATANODE"
+                ],
+                "IMPALA": [
+                    "IMPALAD"
+                ],
+                "YARN": [
+                    "NODEMANAGER"
+                ]
+            },
+            "roleTypeConfigs": {}
+        },
+        "masters": {
+            "name": "masters",
+            "virtualInstances": "***MASTER-INSTANCES***",
+            "minCount": 1,
+            "serviceTypeToRoleTypes": {
+                "HIVE": [
+                    "HIVEMETASTORE",
+                    "HIVESERVER2"
+                ],
+                "HUE": [
+                    "HUE_SERVER"
+                ],
+                "ZOOKEEPER": [
+                    "SERVER"
+                ],
+                "OOZIE": [
+                    "OOZIE_SERVER"
+                ],
+                "HDFS": [
+                    "NAMENODE",
+                    "SECONDARYNAMENODE",
+                    "BALANCER"
+                ],
+                "YARN": [
+                    "RESOURCEMANAGER",
+                    "JOBHISTORY"
+                ]
+            },
+            "roleTypesConfigs": {}
+        }
+    },
+    
+
+    "externalDatabaseTemplates": {
+        "HIVE": {
+        "name": "hivetemplate",
+        "databaseServerName": "directordb",
+        "databaseNamePrefix": "hivedb"
+        },
+        "HUE": {
+        "name": "huetemplate",
+        "databaseServerName": "directordb",
+        "databaseNamePrefix": "huedb"
+        },
+        "OOZIE": {
+        "name": "oozietemplate",
+        "databaseServerName": "directordb",
+        "databaseNamePrefix": "ooziedb"
+        }
+    },
+    "parcelRepositories": [
+        "http://archive.cloudera.com/cdh5/parcels/5.14/"
+    ]
+}
