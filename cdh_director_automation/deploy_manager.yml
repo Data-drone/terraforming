@@ -1,0 +1,52 @@
+---
+- hosts: localhost
+  gather_facts: false
+  vars_files:
+  - ../secrets/aws_creds.yml
+    
+  tasks:
+  - name: Load template from file
+    set_fact:
+      deploymentTemplate: "{{ lookup('file', 'configs/manager.json')}}"
+      environmentTemplate: "{{ lookup('file', 'configs/enviro.json')}}"
+      directorUrl: "http://13.211.252.213:7189"
+    
+  - name: Login
+    uri:
+      url: "{{ directorUrl }}/api/d6.2/login"
+      method: POST
+      status_code: 200
+      body: >
+        {"username":"admin", "password": "admin"}
+      headers:
+        Content-Type: "application/json"
+    register: login
+
+  - name: Load Template File
+    set_fact: 
+      assembledTemplate: "{{ environmentTemplate | 
+      replace('***AWS_ACCESS_KEY_ID***', awsAccessKeyID) |
+      replace('***AWS_SECRET_ACCESS_KEY***', awsSecretAccessKey) |
+      replace('***RSA_PRIVATE_KEY***', pemKey) }}"
+    no_log: true
+
+  - name: check template
+    debug:
+      var: assembledTemplate
+
+  - name: Create deployment
+    uri:
+      url: "{{ directorUrl }}/api/d6.2/environments/"
+      method: POST
+      body: "{{ assembledTemplate }}"
+      body_format: json
+      headers:
+        Cookie: "{{ login.set_cookie }}"
+      status_code: 201
+      return_content: yes
+    register: data2
+
+  - name: debug print
+    debug:
+      var: data2.json
+      
