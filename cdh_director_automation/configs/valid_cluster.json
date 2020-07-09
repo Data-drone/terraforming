@@ -1,8 +1,17 @@
 {
-    "name": "basic",
+    "name": "basic-2",
     "productVersions": {
         "CDH": "5.14"
     },
+    "services": [
+        "HDFS",
+        "HIVE",
+        "HUE",
+        "IMPALA",
+        "OOZIE",
+        "YARN",
+        "ZOOKEEPER"
+    ],
     "virtualInstanceGroups": {
         "single": {
             "name": "single",
@@ -24,7 +33,18 @@
                     },
                     "normalizeInstance": true
                 }
-            }]
+            }],
+            "serviceTypeToRoleTypes": {
+                "HIVE": [
+                    "GATEWAY"
+                ],
+                "HDFS": [
+                  "GATEWAY"
+                ],
+                "YARN": [
+                  "GATEWAY"
+                ]
+            }
         }
     
     },
