@@ -1,5 +1,5 @@
 {
-    "name": "basic-3",
+    "name": "basic-4",
     "productVersions": {
         "CDH": "5.14"
     },
@@ -46,6 +46,59 @@
                 ]
             }
         },
+        "data": {
+            "name": "data",
+            "virtualInstances": [
+                {
+                "id": "d1",
+                "template": {
+                    "name": "test-data",
+                    "type": "m5.large",
+                    "image": "ami-091cbe0bfa7343244",
+                    "config": {
+                        "securityGroupsIds": "sg-02842c05f156e59b9",
+                        "subnetId": "subnet-0d1982a9afcbc74de",
+                        "instanceNamePrefix": "data-"
+                    },
+                    "tags": {
+                        "application": "data",
+                        "owner": "brian.law",
+                        "enddate": "permanent"
+                    },
+                    "normalizeInstance": true
+                    }
+                },
+                {
+                "id": "d2",
+                "template": {
+                    "name": "test-data",
+                    "type": "m5.large",
+                    "image": "ami-091cbe0bfa7343244",
+                    "config": {
+                        "securityGroupsIds": "sg-02842c05f156e59b9",
+                        "subnetId": "subnet-0d1982a9afcbc74de",
+                        "instanceNamePrefix": "data-"
+                    },
+                    "tags": {
+                        "application": "data",
+                        "owner": "brian.law",
+                        "enddate": "permanent"
+                    },
+                    "normalizeInstance": true
+                }
+            }],
+            "serviceTypeToRoleTypes": {
+                "HDFS": [
+                    "DATANODE"
+                ],
+                "IMPALA": [
+                    "IMPALAD"
+                ],
+                "YARN": [
+                    "NODEMANAGER"
+                ]
+            }
+        },
         "master": {
             "name": "master",
             "virtualInstances": [{
@@ -60,7 +113,7 @@
                         "instanceNamePrefix": "master-"
                     },
                     "tags": {
-                        "application": "edge",
+                        "application": "master",
                         "owner": "brian.law",
                         "enddate": "permanent"
                     },
