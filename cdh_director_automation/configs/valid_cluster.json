@@ -1,5 +1,5 @@
 {
-    "name": "basic-2",
+    "name": "basic-3",
     "productVersions": {
         "CDH": "5.14"
     },
@@ -13,7 +13,7 @@
         "ZOOKEEPER"
     ],
     "virtualInstanceGroups": {
-        "single": {
+        "edge": {
             "name": "single",
             "virtualInstances": [{
                 "id": "asdfasdf",
@@ -43,6 +43,52 @@
                 ],
                 "YARN": [
                   "GATEWAY"
+                ]
+            }
+        },
+        "master": {
+            "name": "master",
+            "virtualInstances": [{
+                "id": "asdfasdf-1",
+                "template": {
+                    "name": "test-master",
+                    "type": "m5.xlarge",
+                    "image": "ami-091cbe0bfa7343244",
+                    "config": {
+                        "securityGroupsIds": "sg-02842c05f156e59b9",
+                        "subnetId": "subnet-0d1982a9afcbc74de",
+                        "instanceNamePrefix": "master-"
+                    },
+                    "tags": {
+                        "application": "edge",
+                        "owner": "brian.law",
+                        "enddate": "permanent"
+                    },
+                    "normalizeInstance": true
+                }
+            }],
+            "serviceTypeToRoleTypes": {
+                "HIVE": [
+                    "HIVEMETASTORE",
+                    "HIVESERVER2"
+                ],
+                "HUE": [
+                    "HUE_SERVER"
+                ],
+                "ZOOKEEPER": [
+                    "SERVER"
+                ],
+                "OOZIE": [
+                    "OOZIE_SERVER"
+                ],
+                "HDFS": [
+                    "NAMENODE",
+                    "SECONDARYNAMENODE",
+                    "BALANCER"
+                ],
+                "YARN": [
+                    "RESOURCEMANAGER",
+                    "JOBHISTORY"
                 ]
             }
         }
