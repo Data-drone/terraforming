@@ -1,0 +1,34 @@
+{
+    "name": "basic",
+    "productVersions": {
+        "CDH": "5.14"
+    },
+    "virtualInstanceGroups": {
+        "single": {
+            "name": "single",
+            "virtualInstances": [{
+                "id": "asdfasdf",
+                "template": {
+                    "name": "test-edge",
+                    "type": "m5.large",
+                    "image": "ami-091cbe0bfa7343244",
+                    "config": {
+                        "securityGroupsIds": "sg-02842c05f156e59b9",
+                        "subnetId": "subnet-0d1982a9afcbc74de",
+                        "instanceNamePrefix": "edge-"
+                    },
+                    "tags": {
+                        "application": "edge",
+                        "owner": "brian.law",
+                        "enddate": "permanent"
+                    },
+                    "normalizeInstance": true
+                }
+            }]
+        }
+    
+    },
+    "parcelRepositories": [
+        "http://archive.cloudera.com/cdh5/parcels/5.14/"
+    ]
+}
