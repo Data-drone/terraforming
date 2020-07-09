@@ -1,7 +1,7 @@
 {
-    "name": "first-cluster",
+    "name": "fifth-cluster",
     "productVersions": {
-        "CDH": "5.14.4"
+        "CDH": "5.14"
     },
     "services": [
         "HDFS",
@@ -16,7 +16,6 @@
         "edge": {
             "name": "edge",
             "virtualInstances": "***EDGE-INSTANCES***",
-            "minCount": 0,
             "serviceTypeToRoleTypes": {
                 "HIVE": [
                     "GATEWAY"
@@ -33,7 +32,6 @@
         "data": {
             "name": "data",
             "virtualInstances": "***DATA-INSTANCES***",
-            "minCount": 3,
             "serviceTypeToRoleTypes": {
                 "HDFS": [
                     "DATANODE"
@@ -50,7 +48,6 @@
         "masters": {
             "name": "masters",
             "virtualInstances": "***MASTER-INSTANCES***",
-            "minCount": 1,
             "serviceTypeToRoleTypes": {
                 "HIVE": [
                     "HIVEMETASTORE",
@@ -78,26 +75,13 @@
             "roleTypesConfigs": {}
         }
     },
-    
-
-    "externalDatabaseTemplates": {
-        "HIVE": {
-        "name": "hivetemplate",
-        "databaseServerName": "directordb",
-        "databaseNamePrefix": "hivedb"
-        },
-        "HUE": {
-        "name": "huetemplate",
-        "databaseServerName": "directordb",
-        "databaseNamePrefix": "huedb"
-        },
-        "OOZIE": {
-        "name": "oozietemplate",
-        "databaseServerName": "directordb",
-        "databaseNamePrefix": "ooziedb"
-        }
-    },
     "parcelRepositories": [
         "http://archive.cloudera.com/cdh5/parcels/5.14/"
+    ],
+    "instancePostCreateScripts": [
+        {
+            "id": "time sync",
+            "content": "#!/bin/sh\n\necho \"server 169.254.169.123 prefer iburst minpoll 4 maxpoll 4\" | sudo tee -a /etc/chrony.conf\nsudo chronyd restart"}
+        
     ]
 }
