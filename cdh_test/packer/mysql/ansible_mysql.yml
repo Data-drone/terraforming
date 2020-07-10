@@ -1,0 +1,35 @@
+---
+    - hosts: all
+      become: yes
+    
+      tasks:
+      - name: install mysql rpm
+        yum:
+          name: http://repo.mysql.com/mysql-community-release-el7-5.noarch.rpm
+          state: present
+
+      - name: install and update for mysql
+        yum:
+          name: 
+          - mysql-server
+          - MySQL-python
+          state: installed
+          update_cache: yes
+        
+      - name: start mysql
+        systemd:
+          name: mysqld
+          enabled: yes
+          state: started
+
+      - name: add the conf
+        copy:
+          src: my.cnf
+          dest: /etc/my.cnf
+
+      - name: restart mysqld
+        systemd:
+          name: mysqld
+          state: restarted
+
+      

@@ -1,0 +1,35 @@
+---
+- hosts: all
+  become: yes
+  vars:
+    root_password: r00t1!
+
+  tasks:
+  - name: Set root password
+    mysql_user:
+      name: root
+      password: "{{ root_password }}"
+      state: present
+    ignore_errors: True
+
+  - name: Remove anaonymous users
+    command: 'mysql -uroot -p{{ root_password }} -ne "{{ item }}"'
+    with_items:
+      - DELETE FROM mysql.user WHERE User=''
+
+  - name: Disable remote login for root
+    command: 'mysql -uroot -p{{ root_password }} -ne "{{ item }}"'
+    with_items:
+      - DELETE FROM mysql.user WHERE User='root' AND Host NOT IN ('127.0.0.1', '::1', 'localhost')
+    
+  - name: Remove the test database
+    mysql_db:
+      login_user: root
+      login_password: "{{ root_password }}"
+      db: test
+      state: absent
+    
+  - name: Reload privilege tables
+    command: 'mysql -uroot -p{{ root_password }} -ne "{{ item }}"'
+    with_items:
+      - FLUSH PRIVILEGES
