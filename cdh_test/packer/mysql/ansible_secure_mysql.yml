@@ -33,3 +33,13 @@
     command: 'mysql -uroot -p{{ root_password }} -ne "{{ item }}"'
     with_items:
       - FLUSH PRIVILEGES
+
+  - name: Grant remote root for testing
+    mysql_user:
+      login_user: root
+      login_password: "{{ root_password }}" 
+      name: root
+      password: "{{ root_password }}"
+      priv: "*.*:ALL"
+      host: "%"
+      state: present
