@@ -67,3 +67,8 @@
     systemd:
       name: cloudera-scm-server-db
       enabled: no
+
+  - name: setup the chronyd timesync line
+    lineinfile:
+      path: /etc/chrony.conf
+      line: server 169.254.169.123 prefer iburst minpoll 4 maxpoll 4
