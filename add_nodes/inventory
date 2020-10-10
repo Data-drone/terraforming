@@ -1,0 +1,11 @@
+[worker]
+ip-10-0-1-165.ap-southeast-2.compute.internal ansible_host=52.62.5.194 host_template=HostTemplate-Worker # i-0b7edf541c22f65ce
+ip-10-0-1-208.ap-southeast-2.compute.internal ansible_host=3.25.125.187 host_template=HostTemplate-Worker # i-0ad947db60284c177
+ip-10-0-1-121.ap-southeast-2.compute.internal ansible_host=3.26.5.187 host_template=HostTemplate-Worker # i-04d6d498eb14983f4
+ip-10-0-1-225.ap-southeast-2.compute.internal ansible_host=54.66.57.0 host_template=HostTemplate-Worker # i-095cf9cd9847e40dd
+ip-10-0-1-209.ap-southeast-2.compute.internal ansible_host=13.54.214.162 host_template=HostTemplate-Worker # i-01bbd605e291bdd9f
+ip-10-0-1-177.ap-southeast-2.compute.internal ansible_host=3.26.10.144 host_template=HostTemplate-Worker # i-0a0ac007c4f9f8108
+
+[all:vars]
+ansible_user=centos
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'

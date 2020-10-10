@@ -1,0 +1,8 @@
+[worker]
+%{ for index, dns in node-dns ~}
+${dns} ansible_host=${node-ip[index]} host_template=HostTemplate-Worker # ${node-id[index]}
+%{ endfor ~}
+
+[all:vars]
+ansible_user=centos
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'
