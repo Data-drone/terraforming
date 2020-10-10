@@ -30,3 +30,5 @@ override.tf.json
 
 # pem keys
 *.pem
+
+secrets/*
