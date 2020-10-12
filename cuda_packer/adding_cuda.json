@@ -1,0 +1,41 @@
+{
+  "variables": {
+    "aws_access_key": "{{env `AWS_ACCESS_KEY_ID`}}",
+    "aws_secret_key": "{{env `AWS_SECRET_ACCESS_KEY`}}"
+  },
+
+  "sensitive-variables": ["aws_access_key", "aws_secret_key"],
+
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "access_key": "{{user `aws_access_key`}}",
+      "secret_key": "{{user `aws_secret_key`}}",
+      "region": "ap-southeast-2",
+      "source_ami": "{{user `source_ami`}}",
+      "instance_type": "g4dn.2xlarge",
+        "ssh_username": "centos",
+        "ami_name": "blaw_secure_cluster_gpu {{timestamp}}",
+        "run_tags": {
+          "owner": "{{ user `owner` }}",
+          "enddate": "{{ user `enddate` }}"
+        },
+        "tags": {
+          "owner": "{{ user `owner` }}",
+          "instance": "{{ user `instance` }}"
+        },
+        "launch_block_device_mappings": [{
+            "device_name": "/dev/sda1",
+            "volume_size": 100,
+            "volume_type": "gp2",
+            "delete_on_termination": true
+        }]
+      }
+    ],
+    "provisioners": [
+        {
+            "type": "ansible",
+            "playbook_file": "ansible-playbooks/prewarm-image.yml"
+        }
+    ]
+}

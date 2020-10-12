@@ -1,0 +1,46 @@
+---
+- hosts: all
+  become: yes
+
+  tasks:  
+  - name: install kernel headers
+    yum:
+      name: http://mirror.centos.org/centos/7/updates/x86_64/Packages/kernel-devel-3.10.0-1127.19.1.el7.x86_64.rpm
+      state: present
+      update_cache: true
+
+  #- name: install epel
+  #  yum:
+  #    name: https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+  #    state: present
+  #    update_cache: true
+
+  # Epel should already be installed in the base image
+  - name: run the update
+    shell: yum -y update
+
+  - name: Install the 'Development tools' package group
+    yum:
+      name: "@Development tools"
+      state: present
+
+  - name: Add in the repo
+    yum:
+      name: https://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/cuda-repo-rhel7-10.0.130-1.x86_64.rpm
+      state: present
+
+  - name: install the cuda that I need
+    yum:
+      name: cuda-10.2.89-1
+      state: present
+  #- name: add repo
+  #  yum_repository:
+  #    name: cuda
+  #    description: NVIDIA CUDA YUM Repo
+  #    baseurl: http://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/cuda-rhel7.repo
+      
+  #- name: install drivers
+  #  yum:
+  #    name: http://developer.download.nvidia.com/compute/cuda/repos/rhel7/x86_64/cuda-10-2-10.2.89-1.x86_64.rpm
+  #    state: present
+  #    update_cache: yes
