@@ -1,0 +1,6 @@
+[bastion]
+ip-10-0-1-239.ap-southeast-2.compute.internal ansible_host=54.252.236.205 # i-0632102164aac8fb4
+
+[all:vars]
+ansible_user=centos
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'
