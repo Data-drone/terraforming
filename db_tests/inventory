@@ -1,0 +1,6 @@
+[database]
+ip-10-0-1-105.ap-southeast-2.compute.internal ansible_host=3.25.141.161 #
+
+[all:vars]
+ansible_user=centos
+ansible_ssh_common_args='-o StrictHostKeyChecking=no'

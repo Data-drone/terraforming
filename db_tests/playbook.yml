@@ -1,0 +1,19 @@
+---
+
+- name: add postgres 10 repo
+  hosts: database
+
+  tasks:
+  - name: add postgres 10 repo
+    yum:
+      name: https://download.postgresql.org/pub/repos/yum/reporpms/EL-7-x86_64/pgdg-redhat-repo-latest.noarch.rpm
+      state: present
+    become: yes
+
+- name: setup postgres
+  hosts: database
+  roles:
+    - geerlingguy.postgresql
+  vars_files:
+    - vars/database.yml
+  become: yes

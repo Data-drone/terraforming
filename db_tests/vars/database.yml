@@ -1,0 +1,136 @@
+---
+
+databases:
+  scm:
+    name: 'scm'
+    user: 'scm'
+    pass: 'scmPass'
+    type: 'postgresql'
+  amon:
+    name: 'amon'
+    user: 'amon'
+    pass: 'amonPass'
+    type: 'postgresql'
+  rman:
+    name: 'rman'
+    user: 'rman'
+    pass: 'rmanPass'
+    type: 'postgresql'
+  hue:
+    name: 'hue'
+    user: 'hue'
+    pass: 'huePass'
+    type: 'postgresql'
+  hive:
+    name: 'metastore'
+    user: 'hive'
+    pass: 'hivePass'
+    type: 'postgresql'
+  oozie:
+    name: 'oozie'
+    user: 'oozie'
+    pass: 'ooziePass'
+    type: 'postgresql'
+  das:
+    name: 'das'
+    user: 'das'
+    pass: 'dasPass'
+    type: 'postgresql'
+  ranger:
+    name: 'ranger'
+    user: 'ranger'
+    pass: 'rangerPass'
+    type: 'postgresql'
+  schemaregistry:
+    name: 'schemaregistry'
+    user: 'schemaregistry'
+    pass: 'schemaregistryPass'
+    type: 'postgresql'
+  modelops:
+    name: 'modelops'
+    user: 'modelops'
+    pass: 'modelopsPass'
+    type: 'postgresql'
+
+
+postgresql_user: postgres
+
+postgresql_users:
+  - name: '{{ databases.scm.user }}'
+    password: '{{ databases.scm.pass }}'
+    state: present
+  - name: '{{ databases.amon.user }}'
+    password: '{{ databases.amon.pass }}'
+    state: present
+  - name: '{{ databases.rman.user }}'
+    password: '{{ databases.rman.pass }}'
+    state: present
+  - name: '{{ databases.hue.user }}'
+    password: '{{ databases.hue.pass }}'
+    state: present
+  - name: '{{ databases.hive.user }}'
+    password: '{{ databases.hive.pass }}'
+    state: present
+  - name: '{{ databases.oozie.user }}'
+    password: '{{ databases.oozie.pass }}'
+    state: present
+  - name: '{{ databases.das.user }}'
+    password: '{{ databases.das.pass }}'
+    state: present
+  - name: '{{ databases.ranger.user }}'
+    password: '{{ databases.ranger.pass }}'
+    state: present
+  - name: '{{ databases.schemaregistry.user }}'
+    password: '{{ databases.schemaregistry.pass }}'
+    state: present
+  - name: '{{ databases.modelops.user }}'
+    password: '{{ databases.modelops.pass }}'
+    state: present
+
+    
+postgresql_databases:
+  - name: '{{ databases.scm.name }}'
+    owner: '{{ databases.scm.user }}'
+  - name: '{{ databases.amon.name }}'
+    owner: '{{ databases.amon.user }}'
+  - name: '{{ databases.rman.name }}'
+    owner: '{{ databases.rman.user }}'
+  - name: '{{ databases.hue.name }}'
+    owner: '{{ databases.hue.user }}'
+  - name: '{{ databases.hive.name }}'
+    owner: '{{ databases.hive.user }}'
+  - name: '{{ databases.oozie.name }}'
+    owner: '{{ databases.oozie.user }}'
+  - name: '{{ databases.das.name }}'
+    owner: '{{ databases.das.user }}'
+  - name: '{{ databases.ranger.name }}'
+    owner: '{{ databases.ranger.user }}'
+  - name: '{{ databases.schemaregistry.name }}'
+    owner: '{{ databases.schemaregistry.user }}'
+  - name: '{{ databases.modelops.name }}'
+    owner: '{{ databases.modelops.user }}'
+    
+
+
+postgresql_hba_entries:
+    - {type: local, database: all, user: postgres, auth_method: peer}
+    - {type: local, database: all, user: all, auth_method: peer}
+    - {type: host, database: all, user: all, address: '127.0.0.1/32', auth_method: md5}
+    - {type: host, database: all, user: all, address: '::1/128', auth_method: md5}  
+    - {type: host, database: all, user: all, address: '0.0.0.0/0', auth_method: md5}    
+
+
+postgres_users_no_log: false
+postgresql_version: "10"
+postgresql_data_dir: /var/lib/pgsql/10/data
+postgresql_bin_path: /usr/pgsql-10/bin
+postgresql_config_path: /var/lib/pgsql/10/data
+postgresql_daemon: postgresql-10
+postgresql_packages:
+  - postgresql10
+  - postgresql10-libs
+  - postgresql10-server
+
+postgresql_global_config_options:
+  - option: listen_addresses
+    value: "*"
